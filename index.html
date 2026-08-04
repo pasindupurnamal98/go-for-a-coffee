@@ -475,17 +475,8 @@ document.querySelectorAll('.options').forEach(group=>{
   });
 });
 
-/* ---------------- EmailJS submission ---------------- */
-/* Your EmailJS account is now connected to this page.
-   Make sure the EmailJS template includes these variables:
-   final_answer, q1, q2, q3, q4, comment, suggestion */
-const EMAILJS_PUBLIC_KEY = '2Npe-iKlcafd1kXx9';
-const EMAILJS_SERVICE_ID = 'service_8f8qjsc';
-const EMAILJS_TEMPLATE_ID = 'template_362ppol';
-
-if (window.emailjs) {
-  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-}
+/* ---------------- FormSubmit email submission ---------------- */
+const FORM_EMAIL = 'sasindunisal@gmail.com';
 
 function showCommentBox(choice){
   window.pendingChoice = choice;
@@ -500,13 +491,16 @@ function submitAnswer(choice, customComment = ''){
   const finalText = cleanedComment ? `${choice} — ${cleanedComment}` : choice;
 
   const payload = {
+    _subject: 'Our Story response',
+    _captcha: 'false',
     final_answer: finalText,
     q1: answers.q1 || '',
     q2: answers.q2 || '',
     q3: answers.q3 || '',
     q4: answers.q4 || '',
     comment: cleanedComment,
-    suggestion: cleanedComment || choice
+    suggestion: cleanedComment || choice,
+    email: FORM_EMAIL
   };
 
   statusEl.textContent = 'Sending...';
@@ -522,14 +516,29 @@ function submitAnswer(choice, customComment = ''){
     statusEl.textContent = '';
   };
 
-  if (window.emailjs) {
-    emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, payload)
-      .then(()=>{ statusEl.textContent = 'Sent.'; finish(); })
-      .catch((err)=>{ statusEl.textContent = 'Could not send automatically, but your answer was noted.'; console.error(err); finish(); });
-  } else {
-    // EmailJS script did not load
-    setTimeout(finish, 400);
-  }
+  fetch(`https://formsubmit.co/ajax/${FORM_EMAIL}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`FormSubmit failed: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(() => {
+      statusEl.textContent = 'Sent.';
+      finish();
+    })
+    .catch((err) => {
+      console.error('FormSubmit error:', err);
+      statusEl.textContent = 'Could not send automatically. Please try again.';
+      finish();
+    });
 }
 
 /* ---------------- Confetti ---------------- */
