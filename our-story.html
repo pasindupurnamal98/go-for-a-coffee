@@ -476,15 +476,15 @@ document.querySelectorAll('.options').forEach(group=>{
 });
 
 /* ---------------- EmailJS submission ---------------- */
-/* 1. Create a free account at https://www.emailjs.com
-   2. Replace the three placeholders below with your own IDs
-   3. That's it — her answer will land in your inbox */
-const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
-const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+/* Your EmailJS account is now connected to this page.
+   Make sure the EmailJS template includes these variables:
+   final_answer, q1, q2, q3, q4, comment, suggestion */
+const EMAILJS_PUBLIC_KEY = '23AD9O_IPOf5tnsYg';
+const EMAILJS_SERVICE_ID = 'service_8f8qjsc';
+const EMAILJS_TEMPLATE_ID = 'template_362ppol';
 
-if (window.emailjs && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
-  emailjs.init(EMAILJS_PUBLIC_KEY);
+if (window.emailjs) {
+  emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
 }
 
 function showCommentBox(choice){
@@ -522,12 +522,12 @@ function submitAnswer(choice, customComment = ''){
     statusEl.textContent = '';
   };
 
-  if (window.emailjs && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+  if (window.emailjs) {
     emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, payload)
       .then(()=>{ statusEl.textContent = 'Sent.'; finish(); })
       .catch((err)=>{ statusEl.textContent = 'Could not send automatically, but your answer was noted.'; console.error(err); finish(); });
   } else {
-    // EmailJS not configured yet — still shows the result locally
+    // EmailJS script did not load
     setTimeout(finish, 400);
   }
 }
