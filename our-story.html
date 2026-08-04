@@ -179,6 +179,14 @@
   .q-welcome p, .q-final p{color:var(--lavender); line-height:1.65; margin-bottom:1.75rem;}
   .final-buttons{display:flex; gap:0.85rem; flex-wrap:wrap;}
   .final-buttons .btn{padding:0.9rem 1.5rem; font-size:0.76rem;}
+  .comment-box{display:none; margin-top:1.25rem;}
+  .comment-box label{display:block; margin-bottom:0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--lavender);}
+  .comment-box textarea{
+    width:100%; min-height:120px; resize:vertical; border:1px solid var(--line); border-radius:12px;
+    background:var(--night); color:var(--cream); padding:1rem 1rem; font:inherit; line-height:1.6;
+  }
+  .comment-box textarea:focus{outline:none; border-color:var(--amber); box-shadow:0 0 0 1px rgba(232,163,61,0.4);}
+  .comment-box .btn{margin-top:0.85rem;}
   #sendStatus{margin-top:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--lavender);}
   .result-msg{display:none; font-family:'Fraunces',serif; font-size:1.3rem; color:var(--amber); margin-top:1rem;}
 
@@ -377,7 +385,15 @@
         <div class="final-buttons">
           <button class="btn primary" onclick="submitAnswer('Yes, I\'d love to')">❤️ Yes, I'd love to</button>
           <button class="btn" onclick="submitAnswer('Let\'s plan another day')">☺️ Let's plan another day</button>
+          <button class="btn" onclick="showCommentBox('I have a different idea')">💡 I have a different idea</button>
         </div>
+
+        <div class="comment-box" id="commentBox">
+          <label for="commentInput">Tell me your idea or a quick note</label>
+          <textarea id="commentInput" placeholder="Maybe a coffee place, a sunset walk, a movie night, or just a short note you'd like to leave..."></textarea>
+          <button class="btn primary" onclick="submitAnswer(window.pendingChoice || 'I have a different idea', document.getElementById('commentInput').value.trim())">Send my note</button>
+        </div>
+
         <div id="sendStatus"></div>
         <div class="result-msg" id="resultMsg"></div>
       </div>
@@ -471,15 +487,26 @@ if (window.emailjs && EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
   emailjs.init(EMAILJS_PUBLIC_KEY);
 }
 
-function submitAnswer(choice){
+function showCommentBox(choice){
+  window.pendingChoice = choice;
+  document.getElementById('commentBox').style.display = 'block';
+  document.getElementById('commentInput').focus();
+}
+
+function submitAnswer(choice, customComment = ''){
   const statusEl = document.getElementById('sendStatus');
   const resultEl = document.getElementById('resultMsg');
+  const cleanedComment = (customComment || '').trim();
+  const finalText = cleanedComment ? `${choice} — ${cleanedComment}` : choice;
+
   const payload = {
-    final_answer: choice,
+    final_answer: finalText,
     q1: answers.q1 || '',
     q2: answers.q2 || '',
     q3: answers.q3 || '',
     q4: answers.q4 || '',
+    comment: cleanedComment,
+    suggestion: cleanedComment || choice
   };
 
   statusEl.textContent = 'Sending...';
