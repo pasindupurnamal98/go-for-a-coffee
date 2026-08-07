@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Story - Chakra360</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- External Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- EmailJS Integration -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body>
+
+  <!-- Ambient Light Globs -->
+  <div class="ambient-glow-1"></div>
+  <div class="ambient-glow-2"></div>
+
+  <!-- Interactive Canvases -->
+  <canvas id="rainCanvas"></canvas>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Rain Mode Controller -->
+  <button id="rainToggle" onclick="toggleRain()">
+    <span class="dot"></span>
+    <span id="rainLabel">Rain mode</span>
+  </button>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="eyebrow">A story, five years in the making</div>
+    <h1>Some songs<br>just hit <em>differently</em><br>after certain moments.</h1>
+    <p>This is one of them. A small archive of everything that led here — a campus, a five-year gap, and a night at a concert that changed the frequency.</p>
+    <div class="scroll-cue">
+      <span class="line"></span> 
+      <span>Scroll to begin</span>
+    </div>
+  </section>
+
+  <!-- TIMELINE SECTION (CHAPTER 01) -->
+  <section id="timeline">
+    <div class="sec-head">
+      <div class="eyebrow">Chapter 01</div>
+      <h2>The Timeline</h2>
+    </div>
+    <ul class="timeline">
+      <li class="t-item">
+        <div class="tag">Five years ago</div>
+        <h3>Matrix Campus</h3>
+        <p>We first met — briefly. We didn't become close. Life moved on and we went our separate ways, the way people do when the timing just isn't right yet.</p>
+      </li>
+      <li class="t-item">
+        <div class="tag">Exactly five years later</div>
+        <h3>Chakra360 concert</h3>
+        <p>Unexpectedly, we met again. Same two people, but everything about the moment felt different this time.</p>
+      </li>
+      <li class="t-item">
+        <div class="tag">That night</div>
+        <h3>The middle of a huge outdoor crowd</h3>
+        <p>My first time experiencing his concert like that — not backstage, not indoors, just in the crowd, in the sound. It became unforgettable, and I don't think that was only about the music.</p>
+      </li>
+      <li class="t-item">
+        <div class="tag">Afterward</div>
+        <h3>"Some songs just hit differently..."</h3>
+        <p>That was the first message. You replied warmly, and somehow that turned into one of the most honest conversations I'd had in a long time.</p>
+      </li>
+    </ul>
+
+    <!-- Polaroid Memories of the Concert -->
+    <div class="polaroids-container">
+      <figure class="polaroid" data-lightbox>
+        <img src="img/chakra1.jpeg" alt="Chakra360 concert lighting" loading="lazy">
+        <figcaption class="polaroid-caption">Chakra360 — The night we met again</figcaption>
+      </figure>
+      <figure class="polaroid" data-lightbox>
+        <img src="img/chakra2.jpeg" alt="Kasun Kalhara concert stage" loading="lazy">
+        <figcaption class="polaroid-caption">In the middle of the crowd...</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- WHAT STAYED WITH ME (CHAPTER 02) -->
+  <section id="moments">
+    <div class="sec-head">
+      <div class="eyebrow">Chapter 02</div>
+      <h2>What Stayed With Me</h2>
+    </div>
+
+    <div class="quote">
+      "Music creates memories. Every song reminds me of people and moments. I still remember everything."
+      <cite>— you, on why the songs mattered</cite>
+    </div>
+
+    <p style="color:var(--lavender); line-height:1.75; margin-top:1.5rem;">I told you that every time I hear those songs now, I remember every detail — I feel every emotion again. And you understood that immediately, which is rarer than it sounds.</p>
+
+    <div class="quote">
+      "Definitely, I won't forget." &middot; "You're gonna make me cry." &middot; "I felt the same."
+      <cite>— the replies that made it real</cite>
+    </div>
+
+    <p style="color:var(--lavender); line-height:1.75; margin-top:1.5rem;">Then there were the rainy days — I joked it was maybe because of them. You teased back: <em style="color:var(--cream); font-family:'Fraunces',serif;">"So if it wasn't raining? 😌"</em> — and somehow that one line became its own small memory.</p>
+
+    <div class="quote">
+      "It reminded me of you."
+      <cite>— the reel you sent, about people who text after hanging out just to say they had a great time</cite>
+    </div>
+  </section>
+
+  <!-- SONG REVIEWS (CHAPTER 03) -->
+  <section id="reviews">
+    <div class="sec-head">
+      <div class="eyebrow">Chapter 03</div>
+      <h2>Her Words, Not Mine</h2>
+    </div>
+    <p class="reviews-intro">I shared a few songs with you. What you sent back meant more to me than the songs themselves ever could.</p>
+
+    <div class="review-stack">
+      <figure class="review-card" data-lightbox>
+        <img src="img/review-1.png" alt="Her review of Yannam Mathaken" loading="lazy">
+        <figcaption class="review-caption"><span class="song">Yannam Mathaken</span><span>01 / 05</span></figcaption>
+      </figure>
+      <figure class="review-card" data-lightbox>
+        <img src="img/review-2.png" alt="Her review of Gahaka Mal Pipila" loading="lazy">
+        <figcaption class="review-caption"><span class="song">Gahaka Mal Pipila</span><span>02 / 05</span></figcaption>
+      </figure>
+      <figure class="review-card" data-lightbox>
+        <img src="img/review-3.png" alt="Her review of Himi Nathi Adareka" loading="lazy">
+        <figcaption class="review-caption"><span class="song">Himi Nathi Adareka</span><span>03 / 05</span></figcaption>
+      </figure>
+      <figure class="review-card" data-lightbox>
+        <img src="img/review-4.png" alt="Her review of Photograph" loading="lazy">
+        <figcaption class="review-caption"><span class="song">Photograph</span><span>04 / 05</span></figcaption>
+      </figure>
+      <figure class="review-card" data-lightbox>
+        <img src="img/review-5.png" alt="Her review of Sandawathiye" loading="lazy">
+        <figcaption class="review-caption"><span class="song">Sandawathiye</span><span>05 / 05</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- SMALL THINGS I KEEP (CHAPTER 04) -->
+  <section id="memories">
+    <div class="sec-head">
+      <div class="eyebrow">Chapter 04</div>
+      <h2>Small Things I Keep</h2>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <div class="k">Feeling</div>
+        <p>Talking to you gives me a peaceful, fresh feeling I didn't expect to find again.</p>
+      </div>
+      <div class="card">
+        <div class="k">Realization</div>
+        <p>Meeting again after five years meant much more than I expected it to.</p>
+      </div>
+      <div class="card">
+        <div class="k">Habit</div>
+        <p>I miss talking to you more than I probably let on.</p>
+      </div>
+      <div class="card">
+        <div class="k">Music</div>
+        <p>Every one of those songs now carries a memory of you in it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE LETTER (CHAPTER 05) -->
+  <section id="letter">
+    <div class="sec-head">
+      <div class="eyebrow">Chapter 05</div>
+      <h2>A Letter, Instead of a Text</h2>
+    </div>
+    <div class="letter">
+      <p>I could have just sent you a message. But some things deserve more care than a text can hold, so I built this instead.</p>
+      <p style="margin-top:1.5rem;">This isn't only about romance. It's about reconnecting after years apart, discovering there might be something deeper here than either of us expected, and how music somehow kept a place open for this moment the whole time.</p>
+      <p style="margin-top:1.5rem;">Thank you for the conversations, the honesty, and for sending me that reel without overthinking it. It meant more than you probably know.</p>
+      <div class="sign">— written on a rainy day, on purpose</div>
+    </div>
+  </section>
+
+  <!-- ROMANTIC PROPOSAL (CHAPTER 06) -->
+  <section id="proposal" class="proposal-section">
+    <div class="sec-head" style="text-align: center;">
+      <div class="eyebrow">Chapter 06</div>
+      <h2>For You</h2>
+    </div>
+
+    <div class="envelope-wrapper">
+      <div class="envelope closed" id="proposalEnvelope" onclick="openEnvelope()">
+        
+        <!-- Wax Seal Cover state -->
+        <div class="envelope-cover">
+          <div class="envelope-to">For: The girl from Chakra360</div>
+          <div class="envelope-title">An Invitation</div>
+          <div class="wax-seal">❤️</div>
+          <div class="envelope-hint">Click the wax seal to open</div>
+        </div>
+        
+        <!-- Unfolded Letter state -->
+        <div class="letter-inside" id="letterInside">
+          <div class="proposal-title">A Question For You</div>
+          <p class="proposal-text">I'd really like to see you again. Would you be interested in going on a coffee date with me sometime?</p>
+          
+          <div class="final-buttons">
+            <button class="btn primary" onclick="submitAnswer('Yes, I\'d love to', event)">❤️ Yes, I'd love to</button>
+            <button class="btn" onclick="submitAnswer('Let\'s plan another day', event)">☺️ Let's plan another day</button>
+            <button class="btn" onclick="showCommentBox('I have a different idea', event)">💡 I have a different idea</button>
+          </div>
+
+          <div class="comment-box" id="commentBox">
+            <label for="commentInput">Tell me your idea or a quick note</label>
+            <textarea id="commentInput" placeholder="Maybe a different spot, a sunset walk, or a short note you'd like to leave..."></textarea>
+            <button class="btn primary" onclick="submitAnswer(window.pendingChoice || 'I have a different idea', event, document.getElementById('commentInput').value.trim())">Send my note</button>
+          </div>
+
+          <div id="sendStatus"></div>
+          <div class="result-msg" id="resultMsg"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>Made with care, on a rainy day &middot; Our Story</footer>
+
+  <!-- Lightbox for reviews & polaroids -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <script>
+    /* ---------------- EmailJS Setup ---------------- */
+    const EMAILJS_PUBLIC_KEY = '2Npe-iKlcafd1kXx9';
+    const EMAILJS_SERVICE_ID = 'service_8f8qjsc';
+    const EMAILJS_TEMPLATE_ID = 'template_362ppol';
+
+    if (window.emailjs) {
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
+
+    /* ---------------- Rain Canvas Ambient Effect ---------------- */
+    const rc = document.getElementById('rainCanvas');
+    const rctx = rc.getContext('2d');
+    let drops = [];
+
+    function sizeCanvas() {
+      rc.width = window.innerWidth;
+      rc.height = window.innerHeight;
+    }
+    sizeCanvas();
+    window.addEventListener('resize', sizeCanvas);
+
+    function initDrops() {
+      drops = [];
+      const count = Math.floor(window.innerWidth / 12);
+      for (let i = 0; i < count; i++) {
+        drops.push({
+          x: Math.random() * rc.width,
+          y: Math.random() * rc.height,
+          len: 12 + Math.random() * 20,
+          speed: 4 + Math.random() * 6,
+          opacity: 0.12 + Math.random() * 0.35
+        });
+      }
+    }
+    initDrops();
+
+    let rainActive = false;
+    function drawRain() {
+      rctx.clearRect(0, 0, rc.width, rc.height);
+      if (rainActive) {
+        rctx.strokeStyle = 'rgba(163, 161, 200, 0.5)';
+        rctx.lineWidth = 1;
+        drops.forEach(d => {
+          rctx.globalAlpha = d.opacity;
+          rctx.beginPath();
+          rctx.moveTo(d.x, d.y);
+          rctx.lineTo(d.x - 0.5, d.y + d.len);
+          rctx.stroke();
+          d.y += d.speed;
+          d.x -= 0.4;
+          if (d.y > rc.height) {
+            d.y = -20;
+            d.x = Math.random() * rc.width;
+          }
+        });
+        rctx.globalAlpha = 1;
+      }
+      requestAnimationFrame(drawRain);
+    }
+    drawRain();
+
+    function toggleRain() {
+      rainActive = !rainActive;
+      document.body.classList.toggle('rain-on', rainActive);
+      document.getElementById('rainLabel').textContent = rainActive ? 'Rain on' : 'Rain mode';
+    }
+
+    /* ---------------- Fade-in Intersection Observer & Lightbox ---------------- */
+    const reviewObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          reviewObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.review-card').forEach(card => reviewObserver.observe(card));
+
+    // Handle clicks for both Polaroids and Review Cards to open in lightbox
+    document.querySelectorAll('.review-card, .polaroid').forEach(item => {
+      item.addEventListener('click', (e) => {
+        // Prevent trigger if clicking general container wrapper during initial open
+        if (item.classList.contains('polaroid') && e.target.tagName !== 'IMG' && e.target.tagName !== 'FIGCAPTION') {
+          return;
+        }
+        const img = item.querySelector('img');
+        if (img) {
+          document.getElementById('lightboxImg').src = img.src;
+          document.getElementById('lightboxImg').alt = img.alt || '';
+          document.getElementById('lightbox').classList.add('open');
+        }
+      });
+    });
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+
+    /* ---------------- Envelope Proposal Logic ---------------- */
+    function openEnvelope() {
+      const envelope = document.getElementById('proposalEnvelope');
+      if (envelope.classList.contains('closed')) {
+        envelope.classList.remove('closed');
+        envelope.classList.add('open');
+      }
+    }
+
+    function showCommentBox(choice, event) {
+      if (event) event.stopPropagation();
+      window.pendingChoice = choice;
+      const commentBox = document.getElementById('commentBox');
+      commentBox.style.display = 'block';
+      document.getElementById('commentInput').focus();
+    }
+
+    function submitAnswer(choice, event, customComment = '') {
+      if (event) event.stopPropagation();
+      
+      const statusEl = document.getElementById('sendStatus');
+      const resultEl = document.getElementById('resultMsg');
+      const cleanedComment = (customComment || '').trim();
+      const finalText = cleanedComment ? `${choice} — ${cleanedComment}` : choice;
+
+      // Prepare fields matching EmailJS Template variables
+      const payload = {
+        final_answer: finalText,
+        q1: 'Quiz Skipped',
+        q2: 'Quiz Skipped',
+        q3: 'Quiz Skipped',
+        q4: 'Quiz Skipped',
+        comment: cleanedComment,
+        suggestion: cleanedComment || choice
+      };
+
+      statusEl.textContent = 'Sending response...';
+
+      const finishSubmission = () => {
+        resultEl.style.display = 'block';
+        if (choice.toLowerCase().includes('yes') || choice.toLowerCase().includes('love')) {
+          resultEl.innerHTML = "❤️ <strong>She said yes.</strong><br><span style='font-size:0.95rem; color:var(--lavender);'>Can't wait to see you. Let's make it beautiful.</span>";
+          launchConfetti(true); // launch romantic version (hearts/petals)
+        } else {
+          resultEl.textContent = "Noted — no pressure at all. 😊";
+          launchConfetti(false); // launch regular subtle sparkles
+        }
+        statusEl.textContent = '';
+        
+        // Hide option buttons after submit
+        document.querySelector('.final-buttons').style.display = 'none';
+        document.getElementById('commentBox').style.display = 'none';
+      };
+
+      if (window.emailjs) {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, payload)
+          .then(() => {
+            statusEl.textContent = 'Sent successfully.';
+            finishSubmission();
+          })
+          .catch((err) => {
+            statusEl.textContent = 'Could not send automatically, but your choice has been saved locally!';
+            console.error('EmailJS error:', err);
+            finishSubmission();
+          });
+      } else {
+        // Fallback simulate submission
+        setTimeout(() => {
+          statusEl.textContent = 'Saved.';
+          finishSubmission();
+        }, 1000);
+      }
+    }
+
+    /* ---------------- Custom Romantic Confetti & Hearts Canvas Engine ---------------- */
+    const cc = document.getElementById('confettiCanvas');
+    const cctx = cc.getContext('2d');
+    
+    function sizeConfetti() {
+      cc.width = window.innerWidth;
+      cc.height = window.innerHeight;
+    }
+    sizeConfetti();
+    window.addEventListener('resize', sizeConfetti);
+
+    function launchConfetti(romantic = true) {
+      const colors = romantic 
+        ? ['#ff5e7e', '#ff8fa3', '#ffd075', '#faf7f2', '#ff426e'] // Rose petals, pinks and golds
+        : ['#ffd075', '#a3a1c8', '#faf7f2', '#ff5e7e']; // Original theme colors
+
+      const pieces = Array.from({ length: 180 }, () => {
+        const isHeart = romantic && Math.random() > 0.4;
+        return {
+          x: Math.random() * cc.width,
+          y: -20 - Math.random() * cc.height * 0.4,
+          r: 5 + Math.random() * 7,
+          c: colors[Math.floor(Math.random() * colors.length)],
+          speed: 1.8 + Math.random() * 3.5,
+          drift: -1.2 + Math.random() * 2.4,
+          rot: Math.random() * 360,
+          rotSpeed: -5 + Math.random() * 10,
+          isHeart: isHeart
+        };
+      });
+
+      let frame = 0;
+      function animate() {
+        cctx.clearRect(0, 0, cc.width, cc.height);
+        let stillFalling = false;
+        
+        pieces.forEach(p => {
+          p.y += p.speed;
+          p.x += p.drift;
+          p.rot += p.rotSpeed;
+          
+          if (p.y < cc.height + 20) {
+            stillFalling = true;
+          }
+          
+          cctx.save();
+          cctx.translate(p.x, p.y);
+          cctx.rotate(p.rot * Math.PI / 180);
+          cctx.fillStyle = p.c;
+
+          if (p.isHeart) {
+            // Heart-shaped vector path
+            cctx.beginPath();
+            cctx.moveTo(0, -p.r / 3);
+            cctx.bezierCurveTo(-p.r / 2, -p.r, -p.r, -p.r / 3, 0, p.r * 0.75);
+            cctx.bezierCurveTo(p.r, -p.r / 3, p.r / 2, -p.r, 0, -p.r / 3);
+            cctx.fill();
+          } else {
+            // Soft rounded rectangle (simulating rose petal or paper flake)
+            cctx.beginPath();
+            cctx.roundRect(-p.r / 2, -p.r / 2, p.r, p.r * 0.6, p.r * 0.2);
+            cctx.fill();
+          }
+          cctx.restore();
+        });
+
+        frame++;
+        if (stillFalling && frame < 350) {
+          requestAnimationFrame(animate);
+        } else {
+          cctx.clearRect(0, 0, cc.width, cc.height);
+        }
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>
