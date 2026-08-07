@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Story</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Work+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<style>
+  :root{
+    --night:#12172B;
+    --night-deep:#0B0E1D;
+    --panel:#1B2340;
+    --amber:#E8A33D;
+    --rose:#D8748A;
+    --cream:#F3EFE7;
+    --lavender:#9AA0C4;
+    --line: rgba(243,239,231,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--night);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    font-weight:400;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{background:var(--amber); color:var(--night-deep);}
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--amber);
+  }
+  section{
+    position:relative;
+    padding:7rem 1.5rem;
+    max-width:760px;
+    margin:0 auto;
+  }
+  @media (max-width:640px){ section{padding:4.5rem 1.25rem;} }
+
+  /* ---------- Rain canvas ---------- */
+  #rainCanvas{
+    position:fixed; inset:0; width:100%; height:100%;
+    pointer-events:none; z-index:1; opacity:0; transition:opacity 1.2s ease;
+  }
+  body.rain-on #rainCanvas{opacity:0.55;}
+  #rainToggle{
+    position:fixed; top:1.25rem; right:1.25rem; z-index:50;
+    background:var(--panel); border:1px solid var(--line);
+    color:var(--cream); font-family:'JetBrains Mono',monospace; font-size:0.7rem;
+    letter-spacing:0.08em; text-transform:uppercase;
+    padding:0.65rem 1rem; border-radius:100px; cursor:pointer;
+    display:flex; align-items:center; gap:0.5rem;
+    transition:border-color .3s ease, transform .2s ease;
+  }
+  #rainToggle:hover{border-color:var(--amber); transform:translateY(-1px);}
+  #rainToggle .dot{width:6px; height:6px; border-radius:50%; background:var(--lavender); transition:background .3s ease;}
+  body.rain-on #rainToggle .dot{background:var(--amber);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:92vh; display:flex; flex-direction:column; justify-content:center;
+    position:relative; z-index:2; padding-top:6rem;
+  }
+  .hero .eyebrow{margin-bottom:1.25rem;}
+  .hero h1{
+    font-size:clamp(2.6rem, 8vw, 4.6rem);
+    line-height:1.02;
+    max-width:11ch;
+  }
+  .hero h1 em{
+    font-style:italic; color:var(--amber);
+  }
+  .hero p{
+    margin-top:1.75rem; color:var(--lavender); font-size:1.05rem; max-width:38ch; line-height:1.6;
+  }
+  .scroll-cue{
+    margin-top:4rem; display:flex; align-items:center; gap:0.75rem;
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--lavender);
+    letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .scroll-cue .line{width:32px; height:1px; background:var(--lavender); position:relative; overflow:hidden;}
+  .scroll-cue .line::after{
+    content:''; position:absolute; left:-100%; top:0; width:100%; height:100%; background:var(--amber);
+    animation:cueMove 2s infinite ease-in-out;
+  }
+  @keyframes cueMove{ 50%{left:100%;} 100%{left:100%;} }
+
+  /* ---------- Section headers ---------- */
+  .sec-head{margin-bottom:3rem;}
+  .sec-head h2{font-size:clamp(1.8rem,4.5vw,2.6rem); margin-top:0.6rem;}
+
+  /* ---------- Timeline (setlist / ticket-stub motif) ---------- */
+  .timeline{list-style:none; border-left:1px solid var(--line); margin-left:0.4rem;}
+  .t-item{position:relative; padding:0 0 3rem 2.25rem;}
+  .t-item:last-child{padding-bottom:0;}
+  .t-item::before{
+    content:''; position:absolute; left:-5px; top:0.35rem; width:9px; height:9px;
+    border-radius:50%; background:var(--night); border:2px solid var(--amber);
+  }
+  .t-item .tag{font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--amber); letter-spacing:0.1em; text-transform:uppercase;}
+  .t-item h3{font-size:1.25rem; margin-top:0.4rem; font-weight:500;}
+  .t-item p{color:var(--lavender); margin-top:0.5rem; line-height:1.6; font-size:0.96rem;}
+
+  /* ---------- Quote blocks ---------- */
+  .quote{
+    border-left:2px solid var(--rose); padding:0.25rem 0 0.25rem 1.5rem; margin:1.75rem 0;
+    font-family:'Fraunces', serif; font-style:italic; font-size:1.15rem; color:var(--cream); line-height:1.55;
+  }
+  .quote cite{display:block; margin-top:0.6rem; font-family:'JetBrains Mono',monospace; font-style:normal; font-size:0.7rem; color:var(--lavender); letter-spacing:0.06em; text-transform:uppercase;}
+
+  /* ---------- Memory cards ---------- */
+  .cards{display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:2rem;}
+  @media(max-width:560px){.cards{grid-template-columns:1fr;}}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1.5rem;
+    transition:transform .25s ease, border-color .25s ease;
+  }
+  .card:hover{transform:translateY(-3px); border-color:var(--amber);}
+  .card .k{font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--amber); letter-spacing:0.1em; text-transform:uppercase;}
+  .card p{margin-top:0.6rem; font-size:0.92rem; color:var(--cream); line-height:1.55;}
+
+  /* ---------- Letter ---------- */
+  .letter{
+    background:linear-gradient(180deg, var(--panel), var(--night-deep));
+    border:1px solid var(--line); border-radius:14px; padding:2.5rem;
+    font-family:'Fraunces',serif; font-size:1.05rem; line-height:1.85; color:var(--cream);
+    margin-top:2rem;
+  }
+  .letter .sign{margin-top:2rem; font-style:italic; color:var(--amber);}
+
+  /* ---------- Quiz ---------- */
+  .quiz-wrap{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px;
+    padding:2.5rem; margin-top:2rem; position:relative; overflow:hidden;
+  }
+  .progress-track{height:3px; background:var(--line); border-radius:2px; overflow:hidden; margin-bottom:2rem;}
+  .progress-fill{height:100%; width:0%; background:var(--amber); transition:width .5s ease;}
+  .q-screen{display:none; animation:fadeIn .5s ease;}
+  .q-screen.active{display:block;}
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
+  .q-title{font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--lavender); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.75rem;}
+  .q-text{font-family:'Fraunces',serif; font-size:1.5rem; margin-bottom:1.75rem; line-height:1.3;}
+  .options{display:flex; flex-direction:column; gap:0.75rem;}
+  .opt{
+    background:var(--night); border:1px solid var(--line); color:var(--cream);
+    padding:0.95rem 1.2rem; border-radius:10px; text-align:left; font-size:0.98rem;
+    cursor:pointer; font-family:'Work Sans',sans-serif; transition:border-color .2s ease, background .2s ease;
+  }
+  .opt:hover{border-color:var(--amber);}
+  .opt.selected{border-color:var(--amber); background:rgba(232,163,61,0.12);}
+  .q-nav{display:flex; justify-content:space-between; margin-top:2rem;}
+  .btn{
+    font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    padding:0.75rem 1.4rem; border-radius:100px; cursor:pointer; border:1px solid var(--line);
+    background:transparent; color:var(--cream); transition:all .2s ease;
+  }
+  .btn:hover{border-color:var(--amber);}
+  .btn.primary{background:var(--amber); color:var(--night-deep); border-color:var(--amber); font-weight:600;}
+  .btn.primary:hover{opacity:0.9;}
+  .btn:disabled{opacity:0.35; cursor:not-allowed;}
+  .btn:disabled:hover{border-color:var(--line);}
+
+  /* welcome + final screens inside quiz */
+  .q-welcome, .q-final{text-align:left;}
+  .q-welcome h3, .q-final h3{font-family:'Fraunces',serif; font-size:1.6rem; margin-bottom:0.85rem;}
+  .q-welcome p, .q-final p{color:var(--lavender); line-height:1.65; margin-bottom:1.75rem;}
+  .final-buttons{display:flex; gap:0.85rem; flex-wrap:wrap;}
+  .final-buttons .btn{padding:0.9rem 1.5rem; font-size:0.76rem;}
+  .comment-box{display:none; margin-top:1.25rem;}
+  .comment-box label{display:block; margin-bottom:0.6rem; font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--lavender);}
+  .comment-box textarea{
+    width:100%; min-height:120px; resize:vertical; border:1px solid var(--line); border-radius:12px;
+    background:var(--night); color:var(--cream); padding:1rem 1rem; font:inherit; line-height:1.6;
+  }
+  .comment-box textarea:focus{outline:none; border-color:var(--amber); box-shadow:0 0 0 1px rgba(232,163,61,0.4);}
+  .comment-box .btn{margin-top:0.85rem;}
+  #sendStatus{margin-top:1rem; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--lavender);}
+  .result-msg{display:none; font-family:'Fraunces',serif; font-size:1.3rem; color:var(--amber); margin-top:1rem;}
+
+  /* confetti */
+  #confettiCanvas{position:fixed; inset:0; pointer-events:none; z-index:60;}
+
+  footer{
+    text-align:center; padding:4rem 1.5rem 6rem; color:var(--lavender);
+    font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="rainCanvas"></canvas>
+<canvas id="confettiCanvas"></canvas>
+
+<button id="rainToggle" onclick="toggleRain()"><span class="dot"></span><span id="rainLabel">Rain mode</span></button>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="eyebrow">A story, five years in the making</div>
+  <h1>Some songs<br>just hit <em>differently</em><br>after certain moments.</h1>
+  <p>This is one of them. A small archive of everything that led here — a campus, a five-year gap, and a night at a Kasun Kalhara concert that changed the frequency.</p>
+  <div class="scroll-cue"><span class="line"></span> Scroll to begin</div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="sec-head">
+    <div class="eyebrow">Chapter 01</div>
+    <h2>The Timeline</h2>
+  </div>
+  <ul class="timeline">
+    <li class="t-item">
+      <div class="tag">Five years ago</div>
+      <h3>Matrix Campus</h3>
+      <p>We first met — briefly. We didn't become close. Life moved on and we went our separate ways, the way people do when the timing just isn't right yet.</p>
+    </li>
+    <li class="t-item">
+      <div class="tag">Exactly five years later</div>
+      <h3>Chakra360 concert</h3>
+      <p>Unexpectedly, we met again. Same two people, but everything about the moment felt different this time.</p>
+    </li>
+    <li class="t-item">
+      <div class="tag">That night</div>
+      <h3>The middle of a huge outdoor crowd</h3>
+      <p>My first time experiencing his concert like that — not backstage, not indoors, just in the crowd, in the sound. It became unforgettable, and I don't think that was only about the music.</p>
+    </li>
+    <li class="t-item">
+      <div class="tag">Afterward</div>
+      <h3>"Some songs just hit differently..."</h3>
+      <p>That was the first message. You replied warmly, and somehow that turned into one of the most honest conversations I'd had in a long time.</p>
+    </li>
+  </ul>
+</section>
+
+<!-- CONVERSATION / QUOTES -->
+<section id="moments">
+  <div class="sec-head">
+    <div class="eyebrow">Chapter 02</div>
+    <h2>What Stayed With Me</h2>
+  </div>
+
+  <div class="quote">
+    "Music creates memories. Every song reminds me of people and moments. I still remember everything."
+    <cite>— you, on why the songs mattered</cite>
+  </div>
+
+  <p style="color:var(--lavender); line-height:1.7; margin-top:1.5rem;">I told you that every time I hear those songs now, I remember every detail — I feel every emotion again. And you understood that immediately, which is rarer than it sounds.</p>
+
+  <div class="quote">
+    "Definitely, I won't forget." · "You're gonna make me cry." · "I felt the same."
+    <cite>— the replies that made it real</cite>
+  </div>
+
+  <p style="color:var(--lavender); line-height:1.7; margin-top:1.5rem;">Then there were the rainy days — I joked it was maybe because of them. You teased back: <em style="color:var(--cream); font-family:'Fraunces',serif;">"So if it wasn't raining? 😌"</em> — and somehow that one line became its own small memory.</p>
+
+  <div class="quote">
+    "It reminded me of you."
+    <cite>— the reel you sent, about people who text after hanging out just to say they had a great time</cite>
+  </div>
+</section>
+
+<!-- MEMORY CARDS -->
+<section id="memories">
+  <div class="sec-head">
+    <div class="eyebrow">Chapter 03</div>
+    <h2>Small Things I Keep</h2>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="k">Feeling</div><p>Talking to you gives me a peaceful, fresh feeling I didn't expect to find again.</p></div>
+    <div class="card"><div class="k">Realization</div><p>Meeting again after five years meant much more than I expected it to.</p></div>
+    <div class="card"><div class="k">Habit</div><p>I miss talking to you more than I probably let on.</p></div>
+    <div class="card"><div class="k">Music</div><p>Every one of those songs now carries a memory of you in it.</p></div>
+  </div>
+</section>
+
+<!-- LETTER -->
+<section id="letter">
+  <div class="sec-head">
+    <div class="eyebrow">Chapter 04</div>
+    <h2>A Letter, Instead of a Text</h2>
+  </div>
+  <div class="letter">
+    <p>I could have just sent you a message. But some things deserve more care than a text can hold, so I built this instead.</p>
+    <p style="margin-top:1.2rem;">This isn't only about romance. It's about reconnecting after years apart, discovering there might be something deeper here than either of us expected, and how music somehow kept a place open for this moment the whole time.</p>
+    <p style="margin-top:1.2rem;">Thank you for the conversations, the honesty, and for sending me that reel without overthinking it. It meant more than you probably know.</p>
+    <div class="sign">— written on a rainy day, on purpose</div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz">
+  <div class="sec-head">
+    <div class="eyebrow">Chapter 05</div>
+    <h2>Get to Know You</h2>
+  </div>
+
+  <div class="quiz-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+    <!-- Welcome -->
+    <div class="q-screen active" id="screen-welcome">
+      <div class="q-welcome">
+        <h3>Hi 😊</h3>
+        <p>I made this little thing because I wanted to know you a bit better. It only takes a minute — one question at a time.</p>
+        <button class="btn primary" onclick="goTo(1)">Let's start</button>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="q-screen" id="screen-1">
+      <div class="q-title">Question 1 of 5</div>
+      <div class="q-text">If you had one perfect day, how would you spend it?</div>
+      <div class="options" data-q="1">
+        <button class="opt">☕ Coffee &amp; conversation</button>
+        <button class="opt">🌊 Beach</button>
+        <button class="opt">🎵 Live music / concert</button>
+        <button class="opt">🌿 Nature</button>
+        <button class="opt">🍿 Movies</button>
+        <button class="opt">✨ Something spontaneous</button>
+      </div>
+      <div class="q-nav"><button class="btn" onclick="goTo(0)">Back</button><button class="btn primary" id="next-1" disabled onclick="goTo(2)">Next</button></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-screen" id="screen-2">
+      <div class="q-title">Question 2 of 5</div>
+      <div class="q-text">Which place would you choose for a first meet-up?</div>
+      <div class="options" data-q="2">
+        <button class="opt">☕ Cozy café</button>
+        <button class="opt">🌅 Beach</button>
+        <button class="opt">🌳 Park</button>
+        <button class="opt">🍽️ Restaurant</button>
+        <button class="opt">🎶 Live music</button>
+        <button class="opt">📚 Bookstore</button>
+      </div>
+      <div class="q-nav"><button class="btn" onclick="goTo(1)">Back</button><button class="btn primary" id="next-2" disabled onclick="goTo(3)">Next</button></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-screen" id="screen-3">
+      <div class="q-title">Question 3 of 5</div>
+      <div class="q-text">What's one quality you value most in a person?</div>
+      <div class="options" data-q="3">
+        <button class="opt">❤️ Kindness</button>
+        <button class="opt">😊 Sense of humor</button>
+        <button class="opt">🤝 Loyalty</button>
+        <button class="opt">💬 Good communication</button>
+        <button class="opt">🌟 Honesty</button>
+      </div>
+      <div class="q-nav"><button class="btn" onclick="goTo(2)">Back</button><button class="btn primary" id="next-3" disabled onclick="goTo(4)">Next</button></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-screen" id="screen-4">
+      <div class="q-title">Question 4 of 5</div>
+      <div class="q-text">If we met again, what would you like us to do together?</div>
+      <div class="options" data-q="4">
+        <button class="opt">☕ Grab a coffee</button>
+        <button class="opt">🎵 Go to another concert</button>
+        <button class="opt">🚗 Take a short road trip</button>
+        <button class="opt">🍰 Try a new café</button>
+        <button class="opt">🌊 Watch the sunset</button>
+      </div>
+      <div class="q-nav"><button class="btn" onclick="goTo(3)">Back</button><button class="btn primary" id="next-4" disabled onclick="goTo(5)">Next</button></div>
+    </div>
+
+    <!-- Q5 / Final -->
+    <div class="q-screen" id="screen-5">
+      <div class="q-final">
+        <div class="q-title">Question 5 of 5 · Last one 😊</div>
+        <h3>I'd really like to see you again.</h3>
+        <p>Would you be interested in going on a coffee date with me sometime?</p>
+        <div class="final-buttons">
+          <button class="btn primary" onclick="submitAnswer('Yes, I\'d love to')">❤️ Yes, I'd love to</button>
+          <button class="btn" onclick="submitAnswer('Let\'s plan another day')">☺️ Let's plan another day</button>
+          <button class="btn" onclick="showCommentBox('I have a different idea')">💡 I have a different idea</button>
+        </div>
+
+        <div class="comment-box" id="commentBox">
+          <label for="commentInput">Tell me your idea or a quick note</label>
+          <textarea id="commentInput" placeholder="Maybe a coffee place, a sunset walk, a movie night, or just a short note you'd like to leave..."></textarea>
+          <button class="btn primary" onclick="submitAnswer(window.pendingChoice || 'I have a different idea', document.getElementById('commentInput').value.trim())">Send my note</button>
+        </div>
+
+        <div id="sendStatus"></div>
+        <div class="result-msg" id="resultMsg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>Made with care, on a rainy day · Our Story</footer>
+
+<script>
+/* ---------------- Rain canvas ---------------- */
+const rc = document.getElementById('rainCanvas');
+const rctx = rc.getContext('2d');
+let drops = [];
+function sizeCanvas(){ rc.width = window.innerWidth; rc.height = window.innerHeight; }
+sizeCanvas();
+window.addEventListener('resize', sizeCanvas);
+function initDrops(){
+  drops = [];
+  const count = Math.floor(window.innerWidth / 12);
+  for(let i=0;i<count;i++){
+    drops.push({
+      x: Math.random()*rc.width,
+      y: Math.random()*rc.height,
+      len: 10 + Math.random()*18,
+      speed: 4 + Math.random()*6,
+      opacity: 0.15 + Math.random()*0.35
+    });
+  }
+}
+initDrops();
+let rainActive = false;
+function drawRain(){
+  rctx.clearRect(0,0,rc.width,rc.height);
+  if(rainActive){
+    rctx.strokeStyle = 'rgba(154,160,196,0.6)';
+    rctx.lineWidth = 1;
+    drops.forEach(d=>{
+      rctx.globalAlpha = d.opacity;
+      rctx.beginPath();
+      rctx.moveTo(d.x, d.y);
+      rctx.lineTo(d.x, d.y + d.len);
+      rctx.stroke();
+      d.y += d.speed;
+      d.x -= 0.6;
+      if(d.y > rc.height){ d.y = -20; d.x = Math.random()*rc.width; }
+    });
+    rctx.globalAlpha = 1;
+  }
+  requestAnimationFrame(drawRain);
+}
+drawRain();
+function toggleRain(){
+  rainActive = !rainActive;
+  document.body.classList.toggle('rain-on', rainActive);
+  document.getElementById('rainLabel').textContent = rainActive ? 'Rain on' : 'Rain mode';
+}
+
+/* ---------------- Quiz logic ---------------- */
+const answers = {};
+const screens = ['welcome',1,2,3,4,5];
+function goTo(step){
+  screens.forEach(s=>{
+    document.getElementById('screen-'+s).classList.remove('active');
+  });
+  document.getElementById('screen-'+step).classList.add('active');
+  const pct = step === 'welcome' ? 0 : (step/5)*100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+document.querySelectorAll('.options').forEach(group=>{
+  const qNum = group.dataset.q;
+  group.querySelectorAll('.opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      group.querySelectorAll('.opt').forEach(b=>b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers['q'+qNum] = btn.textContent.trim();
+      document.getElementById('next-'+qNum).disabled = false;
+    });
+  });
+});
+
+/* ---------------- FormSubmit email submission ---------------- */
+const FORM_EMAIL = 'sasindunisal@gmail.com';
+
+function showCommentBox(choice){
+  window.pendingChoice = choice;
+  document.getElementById('commentBox').style.display = 'block';
+  document.getElementById('commentInput').focus();
+}
+
+function submitAnswer(choice, customComment = ''){
+  const statusEl = document.getElementById('sendStatus');
+  const resultEl = document.getElementById('resultMsg');
+  const cleanedComment = (customComment || '').trim();
+  const finalText = cleanedComment ? `${choice} — ${cleanedComment}` : choice;
+
+  const payload = {
+    _subject: 'Our Story response',
+    _captcha: 'false',
+    final_answer: finalText,
+    q1: answers.q1 || '',
+    q2: answers.q2 || '',
+    q3: answers.q3 || '',
+    q4: answers.q4 || '',
+    comment: cleanedComment,
+    suggestion: cleanedComment || choice,
+    email: FORM_EMAIL
+  };
+
+  statusEl.textContent = 'Sending...';
+
+  const finish = () => {
+    resultEl.style.display = 'block';
+    if(choice.startsWith('Yes')){
+      resultEl.textContent = "❤️ She said yes.";
+      launchConfetti();
+    } else {
+      resultEl.textContent = "Noted — no pressure at all. 😊";
+    }
+    statusEl.textContent = '';
+  };
+
+  fetch(`https://formsubmit.co/ajax/${FORM_EMAIL}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`FormSubmit failed: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(() => {
+      statusEl.textContent = 'Sent.';
+      finish();
+    })
+    .catch((err) => {
+      console.error('FormSubmit error:', err);
+      statusEl.textContent = 'Could not send automatically. Please try again.';
+      finish();
+    });
+}
+
+/* ---------------- Confetti ---------------- */
+const cc = document.getElementById('confettiCanvas');
+const cctx = cc.getContext('2d');
+function sizeConfetti(){ cc.width = window.innerWidth; cc.height = window.innerHeight; }
+sizeConfetti();
+window.addEventListener('resize', sizeConfetti);
+function launchConfetti(){
+  const colors = ['#E8A33D','#D8748A','#F3EFE7','#9AA0C4'];
+  const pieces = Array.from({length:140}, ()=>({
+    x: Math.random()*cc.width,
+    y: -20 - Math.random()*cc.height*0.3,
+    r: 4 + Math.random()*5,
+    c: colors[Math.floor(Math.random()*colors.length)],
+    speed: 2 + Math.random()*3,
+    drift: -1 + Math.random()*2,
+    rot: Math.random()*360,
+    rotSpeed: -6 + Math.random()*12
+  }));
+  let frame = 0;
+  function animate(){
+    cctx.clearRect(0,0,cc.width,cc.height);
+    let stillFalling = false;
+    pieces.forEach(p=>{
+      p.y += p.speed; p.x += p.drift; p.rot += p.rotSpeed;
+      if(p.y < cc.height + 20) stillFalling = true;
+      cctx.save();
+      cctx.translate(p.x,p.y);
+      cctx.rotate(p.rot*Math.PI/180);
+      cctx.fillStyle = p.c;
+      cctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6);
+      cctx.restore();
+    });
+    frame++;
+    if(stillFalling && frame < 260){ requestAnimationFrame(animate); }
+    else { cctx.clearRect(0,0,cc.width,cc.height); }
+  }
+  animate();
+}
+</script>
+</body>
+</html>
