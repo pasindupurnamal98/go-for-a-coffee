@@ -13,8 +13,7 @@
   <!-- External Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
   
-  <!-- EmailJS Integration -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
 </head>
 <body>
 
@@ -235,14 +234,8 @@
   </div>
 
   <script>
-    /* ---------------- EmailJS Setup ---------------- */
-    const EMAILJS_PUBLIC_KEY = '2Npe-iKlcafd1kXx9';
-    const EMAILJS_SERVICE_ID = 'service_8f8qjsc';
-    const EMAILJS_TEMPLATE_ID = 'template_362ppol';
-
-    if (window.emailjs) {
-      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
-    }
+    /* ---------------- FormSubmit email submission ---------------- */
+    const FORM_EMAIL = 'sasindunisal@gmail.com';
 
     /* ---------------- Rain Canvas Ambient Effect ---------------- */
     const rc = document.getElementById('rainCanvas');
@@ -359,13 +352,10 @@
       const cleanedComment = (customComment || '').trim();
       const finalText = cleanedComment ? `${choice} — ${cleanedComment}` : choice;
 
-      // Prepare fields matching EmailJS Template variables
       const payload = {
+        _subject: 'Our Story response',
+        _captcha: 'false',
         final_answer: finalText,
-        q1: 'Quiz Skipped',
-        q2: 'Quiz Skipped',
-        q3: 'Quiz Skipped',
-        q4: 'Quiz Skipped',
         comment: cleanedComment,
         suggestion: cleanedComment || choice
       };
@@ -388,24 +378,29 @@
         document.getElementById('commentBox').style.display = 'none';
       };
 
-      if (window.emailjs) {
-        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, payload)
-          .then(() => {
-            statusEl.textContent = 'Sent successfully.';
-            finishSubmission();
-          })
-          .catch((err) => {
-            statusEl.textContent = 'Could not send automatically, but your choice has been saved locally!';
-            console.error('EmailJS error:', err);
-            finishSubmission();
-          });
-      } else {
-        // Fallback simulate submission
-        setTimeout(() => {
-          statusEl.textContent = 'Saved.';
+      fetch(`https://formsubmit.co/ajax/${FORM_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`FormSubmit failed: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(() => {
+          statusEl.textContent = 'Sent successfully.';
           finishSubmission();
-        }, 1000);
-      }
+        })
+        .catch((err) => {
+          console.error('FormSubmit error:', err);
+          statusEl.textContent = 'Could not send automatically. Please try again.';
+          finishSubmission();
+        });
     }
 
     /* ---------------- Custom Romantic Confetti & Hearts Canvas Engine ---------------- */
