@@ -886,6 +886,138 @@ body.rain-on #rainToggle .dot {
   transform: scale(1);
 }
 
+/* ---------- Proposal Header Custom Styling ---------- */
+.proposal-heading {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--cream);
+  margin-bottom: 0.5rem;
+}
+.proposal-subheading {
+  font-size: 1.1rem;
+  color: var(--rose);
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+}
+.proposal-description {
+  font-size: 0.92rem;
+  color: var(--lavender);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* ---------- Proposal Option Cards ---------- */
+.option-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 640px) {
+  .option-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.opt-card {
+  background: rgba(26, 21, 52, 0.35);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.5rem;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), 
+              border-color 0.4s ease, 
+              box-shadow 0.4s ease, 
+              background-color 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.opt-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  border-color: rgba(255, 94, 126, 0.4);
+  box-shadow: 0 10px 25px rgba(255, 94, 126, 0.15);
+}
+
+.opt-card.selected {
+  background: rgba(255, 94, 126, 0.08);
+  border-color: var(--rose);
+  box-shadow: 0 0 20px rgba(255, 94, 126, 0.4);
+  transform: scale(1.03);
+  animation: pinkGlow 2s infinite alternate ease-in-out;
+}
+
+@keyframes pinkGlow {
+  0% {
+    box-shadow: 0 0 8px rgba(255, 94, 126, 0.25);
+    border-color: rgba(255, 94, 126, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 22px rgba(255, 94, 126, 0.55);
+    border-color: rgba(255, 94, 126, 1);
+  }
+}
+
+.opt-card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--cream);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.opt-card.selected .opt-card-title {
+  color: var(--rose);
+  text-shadow: 0 0 8px rgba(255, 94, 126, 0.3);
+}
+
+.opt-card-desc {
+  font-size: 0.85rem;
+  color: var(--lavender);
+  line-height: 1.45;
+  transition: color 0.3s ease;
+}
+
+.opt-card.selected .opt-card-desc {
+  color: var(--cream);
+}
+
+/* ---------- Note Section Text & Validation ---------- */
+.comment-title {
+  display: block;
+  font-family: 'Fraunces', serif;
+  font-size: 1.25rem;
+  color: var(--cream);
+  margin-bottom: 0.3rem !important;
+}
+
+.comment-desc {
+  font-size: 0.88rem;
+  color: var(--lavender);
+  margin-bottom: 1.2rem;
+  line-height: 1.5;
+}
+
+.validation-msg {
+  display: none;
+  font-size: 0.9rem;
+  color: var(--rose);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  background: rgba(255, 94, 126, 0.08);
+  border-left: 2px solid var(--rose);
+  padding: 0.8rem 1.2rem;
+  border-radius: 0 8px 8px 0;
+}
+
 /* ---------- Footer ---------- */
 footer {
   text-align: center;
