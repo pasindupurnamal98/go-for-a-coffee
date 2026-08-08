@@ -203,19 +203,34 @@
         
         <!-- Unfolded Letter state -->
         <div class="letter-inside" id="letterInside">
-          <div class="proposal-title">A Question For You</div>
-          <p class="proposal-text">I'd really like to see you again. Would you be interested in going on a coffee date with me sometime?</p>
+          <div class="proposal-title">A QUESTION FOR YOU</div>
+          <h3 class="proposal-heading">I'd really love to take you on a date. ❤️</h3>
+          <p class="proposal-subheading">Would you like to go on a date with me sometime?</p>
+          <p class="proposal-description">Whatever your answer is, I'd really love to know what you're thinking. Your note means just as much as your answer, so please share your thoughts before submitting. 🤍</p>
           
-          <div class="final-buttons">
-            <button class="btn primary" onclick="submitAnswer('Yes, I\'d love to', event)">❤️ Yes, I'd love to</button>
-            <button class="btn" onclick="submitAnswer('Let\'s plan another day', event)">☺️ Let's plan another day</button>
-            <button class="btn" onclick="showCommentBox('I have a different idea', event)">💡 I have a different idea</button>
+          <div class="option-cards">
+            <div class="opt-card" data-choice="Yes, I'd love to">
+              <div class="opt-card-title">❤️ YES, I'D LOVE TO</div>
+              <div class="opt-card-desc">I'd love to go on a date with you.</div>
+            </div>
+            <div class="opt-card" data-choice="Let's plan another day">
+              <div class="opt-card-title">😊 LET'S PLAN ANOTHER DAY</div>
+              <div class="opt-card-desc">Maybe another day would be better.</div>
+            </div>
+            <div class="opt-card" data-choice="I have a different idea">
+              <div class="opt-card-title">💡 I HAVE A DIFFERENT IDEA</div>
+              <div class="opt-card-desc">I'd love to suggest something different.</div>
+            </div>
           </div>
 
           <div class="comment-box" id="commentBox">
-            <label for="commentInput">Tell me your idea or a quick note</label>
-            <textarea id="commentInput" placeholder="Maybe a different spot, a sunset walk, or a short note you'd like to leave..."></textarea>
-            <button class="btn primary" onclick="submitAnswer(window.pendingChoice || 'I have a different idea', event, document.getElementById('commentInput').value.trim())">Send my note</button>
+            <label class="comment-title" for="commentInput">Before you submit...</label>
+            <p class="comment-desc">I'd really love to know what's on your mind. Please leave me a little note. 🤍</p>
+            <textarea id="commentInput" placeholder="Please leave a note..."></textarea>
+            
+            <div id="validationMsg" class="validation-msg">Your answer means a lot to me, but your words mean even more. 🤍 Please leave me a little note before submitting your response.</div>
+            
+            <button class="btn primary" id="submitResponseBtn" onclick="handleFormSubmit(event)">💌 Send My Response</button>
           </div>
 
           <div id="sendStatus"></div>
@@ -336,12 +351,67 @@
       }
     }
 
-    function showCommentBox(choice, event) {
+    let selectedChoice = '';
+
+    // Setup event listeners for options
+    document.querySelectorAll('.opt-card').forEach(card => {
+      card.addEventListener('click', (event) => {
+        if (event) event.stopPropagation();
+        // Remove selected class from all cards
+        document.querySelectorAll('.opt-card').forEach(c => c.classList.remove('selected'));
+        
+        // Add selected class to this card
+        card.classList.add('selected');
+        
+        // Set selected choice
+        selectedChoice = card.dataset.choice;
+        
+        // Update textarea placeholder
+        const commentInput = document.getElementById('commentInput');
+        const commentBox = document.getElementById('commentBox');
+        
+        if (selectedChoice === "Yes, I'd love to") {
+          commentInput.placeholder = "Tell me what made you say yes...";
+        } else if (selectedChoice === "Let's plan another day") {
+          commentInput.placeholder = "Tell me why another day would be better or when you'd like us to meet...";
+        } else if (selectedChoice === "I have a different idea") {
+          commentInput.placeholder = "I'd love to hear your idea...";
+        }
+        
+        // Show comment box
+        commentBox.style.display = 'block';
+        
+        // Clear validation message if shown
+        document.getElementById('validationMsg').style.display = 'none';
+      });
+    });
+
+    function handleFormSubmit(event) {
       if (event) event.stopPropagation();
-      window.pendingChoice = choice;
-      const commentBox = document.getElementById('commentBox');
-      commentBox.style.display = 'block';
-      document.getElementById('commentInput').focus();
+      
+      const validationEl = document.getElementById('validationMsg');
+      const noteInput = document.getElementById('commentInput');
+      const noteVal = noteInput.value.trim();
+      
+      if (!selectedChoice) {
+        validationEl.textContent = "Please select one of the options above first.";
+        validationEl.style.display = 'block';
+        return;
+      }
+      
+      // Note checks: not empty, and must have at least 15 characters OR at least 3 words
+      const words = noteVal.split(/\s+/).filter(w => w.length > 0);
+      const isNoteValid = noteVal.length >= 15 || words.length >= 3;
+      
+      if (!noteVal || !isNoteValid) {
+        validationEl.innerHTML = "Your answer means a lot to me, but your words mean even more. 🤍<br>Please leave me a little note before submitting your response.";
+        validationEl.style.display = 'block';
+        noteInput.focus();
+        return;
+      }
+      
+      validationEl.style.display = 'none';
+      submitAnswer(selectedChoice, event, noteVal);
     }
 
     function submitAnswer(choice, event, customComment = '') {
@@ -373,8 +443,9 @@
         }
         statusEl.textContent = '';
         
-        // Hide option buttons after submit
-        document.querySelector('.final-buttons').style.display = 'none';
+        // Hide option cards and note box after submit
+        const cardsEl = document.querySelector('.option-cards');
+        if (cardsEl) cardsEl.style.display = 'none';
         document.getElementById('commentBox').style.display = 'none';
       };
 
